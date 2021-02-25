@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+      <form method="post">
+          {% csrf_token %}
+        <!--{{form.as_p}}-->  
+          {% render_field form.name placeholder="your name" %}
+          <button type="submit">Add City</button>
+
+         
+          <br>
+        {% for city_weather in city_weathers %}
+          <br>{{city_weather.icon}}  {{city_weather.city}} </br>
+          <br>{{city_weather.temp}}</br>
+          {{city_weather.desc}}
+          <a href="deletecity/{{city_weather.city}}">Delete</a>
+          </br>
+      {% endfor %}
+      </form>
+        {% if city_weathers.has_previous %}
+         <a href="{% url 'index' %}?page={{ city_weathers.previous_page_number }}">Previous Page</a>
+        {% endif %}
+        {% if city_weathers.has_next %}
+          <a href="{% url 'index' %}?page={{ city_weathers.next_page_number }}">Next Page</a>
+        {% endif %}
+
+      </body>
+</html>
